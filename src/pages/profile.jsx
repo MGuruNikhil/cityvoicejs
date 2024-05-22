@@ -31,7 +31,7 @@ const Profile = () => {
     const [isPosts, setIsPosts] = useState(true);
     const [taggedPosts, setTaggedPosts] = useState([]);
     const [activatePopUp, setActivatePopUp] = useState(false);
-    const [f, setF] = useState('');
+    const [popUpHeading, setPopUpHeading] = useState('');
 
     useEffect(() => {
         axios.get('/user/' + params.username + '/')
@@ -120,8 +120,8 @@ const Profile = () => {
                                     </div>
                                     {isExpert && <p className="text-gray-400">{dept}</p>}
                                     <div className="flex gap-3">
-                                        <span className="cursor-pointer hover:underline" onClick={() => {setActivatePopUp(true);setF('Followers')}}>Followers {followers.length}</span>
-                                        <span className="cursor-pointer hover:underline" onClick={() => {setActivatePopUp(true);setF('Following')}}>Following {following.length}</span>
+                                        <span className="cursor-pointer hover:underline" onClick={() => {if(followers.length > 0) {setActivatePopUp(true);setPopUpHeading('Followers')}}}>Followers {followers.length}</span>
+                                        <span className="cursor-pointer hover:underline" onClick={() => {if(following.length > 0) {setActivatePopUp(true);setPopUpHeading('Following')}}}>Following {following.length}</span>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@ const Profile = () => {
                 </div>
                 <RightHome />
             </div>
-            <Popup a={activatePopUp} set={setActivatePopUp} f={f} list={(f=='Followers')?followers:following}/>
+            <Popup isActive={activatePopUp} setIsActive={setActivatePopUp} popUpHeading={popUpHeading} list={(popUpHeading=='Followers')?followers:following}/>
         </>
     );
 }
